@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/Enemy.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Gun.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/VisionCircle.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/HealthBar.tscn" type="PackedScene" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16.961, 23.9692 )
+
+[node name="Enemy" type="Area2D" groups=[
+"Enemies",
+]]
+collision_mask = 2147483649
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Enemy_CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -17.0
+margin_top = -24.0
+margin_right = 17.0
+margin_bottom = 24.0
+color = Color( 0.905882, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gun" parent="." instance=ExtResource( 2 )]
+
+[node name="VisionCircle" parent="." instance=ExtResource( 3 )]
+z_index = -1
+
+[node name="ColorRect2" type="ColorRect" parent="VisionCircle"]
+margin_left = -10.0
+margin_top = -10.0
+margin_right = 10.0
+margin_bottom = 10.0
+color = Color( 1, 0.337255, 0.337255, 0.376471 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Move_Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="Starting_Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="HealthBar" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0, 35 )
+scale = Vector2( 0.8, 0.8 )
+[connection signal="body_entered" from="." to="." method="_on_Enemy_body_entered"]
+[connection signal="reloaded" from="Gun" to="." method="_on_Gun_reloaded"]
+[connection signal="area_entered" from="VisionCircle" to="." method="_on_VisionCircle_area_entered"]
+[connection signal="area_exited" from="VisionCircle" to="." method="_on_VisionCircle_area_exited"]
+[connection signal="timeout" from="Move_Timer" to="." method="_on_Move_Timer_timeout"]
+[connection signal="timeout" from="Starting_Timer" to="." method="_on_Starting_Timer_timeout"]

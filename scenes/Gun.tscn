@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/Gun.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Bullet.tscn" type="PackedScene" id=2]
+
+[node name="Gun" type="Area2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+Bullet = ExtResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -7.0
+margin_top = -6.0
+margin_right = 23.0
+margin_bottom = 6.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReloadingTimer" type="Timer" parent="."]
+one_shot = true
+[connection signal="timeout" from="ReloadingTimer" to="." method="_on_ReloadingTimer_timeout"]
